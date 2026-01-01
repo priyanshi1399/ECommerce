@@ -1,9 +1,13 @@
 package com.example.ECommerce.Service;
-
+import  java.util.*;
 import com.example.ECommerce.Dto.ProductDto;
+import com.example.ECommerce.Entities.Category;
 import com.example.ECommerce.Entities.Product;
-import com.example.ECommerce.Exception.ProductNotFoundException;
+import com.example.ECommerce.Entities.Userr;
+import com.example.ECommerce.Exception.ResourceNotFoundException;
+import com.example.ECommerce.Repo.CategoryRepo;
 import com.example.ECommerce.Repo.ProductRepo;
+import com.example.ECommerce.Repo.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,49 +17,45 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-
     @Autowired
-    ProductRepo  productRepo;
+    ProductRepo productRepo;
 
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    UserRepo userRepo;
+
+    @Autowired
+    CategoryRepo categoryRepo;
+
     @Override
-    public ProductDto createProduct(ProductDto productDto) {
-        Product product=modelMapper.map(productDto ,Product.class);
-        Product createdProduct=this.productRepo.save(product);
-        return modelMapper.map(createdProduct,ProductDto.class);
+    public ProductDto createProduct(ProductDto productDto, Integer userId, Integer categoryId) {
+        Userr user=this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User","userId",userId));
+        Category category=this.categoryRepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("category","categoryId",categoryId));
+        Product product=this.modelMapper.map(productDto, Product.class);
+        product.setProductType("Wire");
+        product.setProductIssuedDate(new Date());
+        product.setUser(user);
+        product.setCategory(category);
+        Product newProduct=this.productRepo.save(product);
+        return this.modelMapper.map(newProduct,ProductDto.class);
 
 
     }
 
     @Override
-    public ProductDto getProductById(Integer productId) {
-        Product product=this.productRepo.findById(productId).get();
-        return modelMapper.map(product,ProductDto.class);
+    public ProductDto updateProduct(Integer productId, ProductDto productDto) {
+        return null;
     }
 
     @Override
     public List<ProductDto> getAllProduct() {
-        List<Product> products=this.productRepo.findAll();
-        return products.stream().map(product->modelMapper.map(product,ProductDto.class)).toList();
-    }
-
-    @Override
-    public ProductDto updateProductDetails(ProductDto productDto,Integer productId) {
-        Product product=this.productRepo.findById(productId).get();
-        product.setProductName(productDto.getProductName());
-        product.setProductType(productDto.getProductType());
-        this.productRepo.save(product);
-        return modelMapper.map(product,ProductDto.class);
+        return List.of();
     }
 
     @Override
     public void deleteProduct(Integer productId) {
-        Product product=this.productRepo.findById(productId).orElseThrow(()->new ProductNotFoundException(
-                "Product"," id", productId
-        ));
 
-        this.productRepo.delete(product);
     }
 }

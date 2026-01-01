@@ -2,12 +2,10 @@ package com.example.ECommerce.Service;
 
 import com.example.ECommerce.Dto.CategoryDto;
 import com.example.ECommerce.Entities.Category;
-import com.example.ECommerce.Exception.CategoryNotFoundException;
+import com.example.ECommerce.Exception.ResourceNotFoundException;
 import com.example.ECommerce.Repo.CategoryRepo;
-import com.example.ECommerce.Response.ApiResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public CategoryDto updateCategory(Integer categoryId, CategoryDto dto) {
-        Category category=this.categoryRepo.findById(categoryId).get();
+        Category category=this.categoryRepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("category","categoryId",categoryId));
         category.setCategoryName(dto.getCategoryName());
         Category updatedCategory=this.categoryRepo.save(category);
         return modelMapper.map(updatedCategory,CategoryDto.class);
@@ -56,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public void deleteCategory(Integer categoryId) {
     Category category=this.categoryRepo.findById(categoryId)
-            .orElseThrow(()->new CategoryNotFoundException("category","id",categoryId)
+            .orElseThrow(()->new ResourceNotFoundException("category","id",categoryId)
 
     );
     this.categoryRepo.delete(category);

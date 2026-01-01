@@ -1,20 +1,15 @@
 package com.example.ECommerce.Service;
-
+import  java.util.*;
 import com.example.ECommerce.Dto.ProductDto;
-import org.springframework.stereotype.Service;
-
-import java.util.*;
-
 
 public interface ProductService {
 
-    ProductDto createProduct(ProductDto productDto);
+    ProductDto createProduct(ProductDto productDto,Integer userId,Integer categoryId);
 
-    ProductDto getProductById(Integer productId);
+   ProductDto updateProduct(Integer productId,ProductDto productDto);
 
     List<ProductDto> getAllProduct();
 
-    ProductDto updateProductDetails(ProductDto productDto,Integer productId);
-
     void deleteProduct(Integer productId);
+
 }
