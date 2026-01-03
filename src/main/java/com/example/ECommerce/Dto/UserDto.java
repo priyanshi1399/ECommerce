@@ -26,5 +26,8 @@ public class UserDto {
     @Size(min=4,message="Email must be 4 chars")
     private String userEmail;
 
+    @NotBlank
+    @Size(min=4,message="Email must be 4 chars")
+    private String password;
 
 }

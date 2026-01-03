@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
         Userr Userr=this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User","userId",userId));
         Userr.setUserName(userDto.getUserName());
         Userr.setUserEmail(userDto.getUserEmail());
+        Userr.setPassword(userDto.getPassword());
         this.userRepo.save(Userr);
         return modelMapper.map(Userr, UserDto.class);
     }
