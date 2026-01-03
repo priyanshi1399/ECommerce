@@ -1,8 +1,10 @@
 package com.example.ECommerce.Controller;
 
-
+import java.time.LocalDateTime;
+import  java.util.*;
 import com.example.ECommerce.Dto.ProductDto;
 import com.example.ECommerce.Entities.Product;
+import com.example.ECommerce.Response.ApiResponse;
 import com.example.ECommerce.Service.ProductService;
 import com.example.ECommerce.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +26,22 @@ public class ProductController {
 
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
+
+    @PutMapping("/update/{productId}")
+    public ResponseEntity<ProductDto> updatedProduct(@RequestBody ProductDto productDto,@PathVariable Integer productId){
+        ProductDto updatedProduct=this.productService.updateProduct(productId,productDto);
+        return new ResponseEntity<>(updatedProduct,HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllProducts")
+    public ResponseEntity<List<ProductDto>> getALlProducts(){
+        return ResponseEntity.ok(this.productService.getAllProduct());
+    }
+
+    @DeleteMapping("/deleteProduct/{productId}")
+    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Integer productId){
+        this.productService.deleteProduct(productId);
+        return  ResponseEntity.ok(new ApiResponse("Product deleted successfully",true, LocalDateTime.now()));
+    }
+
 }

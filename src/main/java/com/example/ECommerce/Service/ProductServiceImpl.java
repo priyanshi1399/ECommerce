@@ -46,16 +46,24 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductDto updateProduct(Integer productId, ProductDto productDto) {
-        return null;
+        Product product=this.productRepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("Product","productId",productId));
+        product.setProductType("Round Pipe");
+        product.setProductIssuedDate(new Date());
+        //Category category=this.categoryRepo
+        Product updatedProduct=this.productRepo.save(product);
+        return this.modelMapper.map(updatedProduct,ProductDto.class);
     }
 
     @Override
     public List<ProductDto> getAllProduct() {
-        return List.of();
+      List<Product> products=  this.productRepo.findAll();
+      return products.stream().map(prod->modelMapper.map(prod,ProductDto.class)).toList();
     }
 
     @Override
     public void deleteProduct(Integer productId) {
+        Product prodId=this.productRepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("Prouct","productId",productId));
+        this.productRepo.delete(prodId);
 
     }
 }
