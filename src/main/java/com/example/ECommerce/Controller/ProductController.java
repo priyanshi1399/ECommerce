@@ -44,4 +44,23 @@ public class ProductController {
         return  ResponseEntity.ok(new ApiResponse("Product deleted successfully",true, LocalDateTime.now()));
     }
 
+    @GetMapping("/getProductByCategory/{categoryId}")
+    public ResponseEntity<List<ProductDto>> getAllProductsByCategory(@PathVariable Integer categoryId){
+        List<ProductDto> product=this.productService.getProductsByCategory(categoryId);
+        return new ResponseEntity<List<ProductDto>>(product,HttpStatus.OK);
+    }
+
+
+    @GetMapping("/getProductByUser/{userId}")
+    public ResponseEntity<List<ProductDto>> getAllProductsByUser(@PathVariable Integer userId){
+        List<ProductDto> product=this.productService.getProductsByUser(userId);
+        return new ResponseEntity<List<ProductDto>>(product,HttpStatus.OK);
+    }
+
+    @GetMapping("/getProductByProductType/{keywords}")
+    public ResponseEntity<List<ProductDto>> getProductByProductType(@PathVariable("keywords") String keyword ){
+        List<ProductDto> productDto=this.productService.getProductByProductType(keyword);
+        return new ResponseEntity<List<ProductDto>>(productDto,HttpStatus.OK);
+    }
+
 }

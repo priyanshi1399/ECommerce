@@ -2,6 +2,7 @@ package com.example.ECommerce.Controller;
 
 
 import com.example.ECommerce.Dto.UserDto;
+import com.example.ECommerce.Entities.Userr;
 import com.example.ECommerce.Response.ApiResponse;
 import com.example.ECommerce.Service.UserService;
 import jakarta.validation.Valid;
@@ -50,6 +51,11 @@ public class UserController {
         return  ResponseEntity.ok(new ApiResponse("User Deleted Successfully",true,LocalDateTime.now()));
 
 
+    }
+
+    @GetMapping("/userName/{userName}")
+    Userr getByUserName(@PathVariable String userName){
+        return this.userService.getUserByUserName(userName);
     }
 
 

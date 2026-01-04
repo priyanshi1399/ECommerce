@@ -60,4 +60,10 @@ public class UserServiceImpl implements UserService {
 
         this.userRepo.delete(Userr);
     }
+
+    @Override
+    public Userr getUserByUserName(String userName) {
+        Userr user=this.userRepo.findByUserName(userName);
+        return user;
+    }
 }

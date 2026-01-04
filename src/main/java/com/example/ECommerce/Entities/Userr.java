@@ -1,14 +1,11 @@
 package com.example.ECommerce.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import java.util.*;
 
 
     @Entity
@@ -24,5 +21,9 @@ import lombok.Setter;
         private String userName;
         private String userEmail;
         private  String password;
+
+        @OneToMany(mappedBy="user" ,cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+        private List<Product> products=new ArrayList<>();
+
     }
 

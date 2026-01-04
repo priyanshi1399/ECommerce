@@ -66,4 +66,27 @@ public class ProductServiceImpl implements ProductService{
         this.productRepo.delete(prodId);
 
     }
+
+    @Override
+    public List<ProductDto> getProductsByCategory(Integer categoryId) {
+        Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category", "categoryId", categoryId));
+        List<Product> products = this.productRepo.findByCategory(category);
+        List<ProductDto> productDto = products.stream().map(product -> modelMapper.map(product, ProductDto.class)).toList();
+        return productDto;
+    }
+
+    @Override
+    public List<ProductDto> getProductsByUser(Integer userId) {
+       Userr user=this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("user","userId",userId));
+       List<Product> products=this.productRepo.findByUser(user);
+        List<ProductDto> productDto = products.stream().map(product -> modelMapper.map(product, ProductDto.class)).toList();
+        return productDto;
+    }
+
+    @Override
+    public List<ProductDto> getProductByProductType(String keyword) {
+        List<Product> products=this.productRepo.searchByproductType("%" +keyword+ "%");
+        List<ProductDto> productDto=products.stream().map(product -> modelMapper.map(product,ProductDto.class)).toList();
+        return productDto;
+    }
 }

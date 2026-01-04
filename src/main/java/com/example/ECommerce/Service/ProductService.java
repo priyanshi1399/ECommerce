@@ -12,4 +12,12 @@ public interface ProductService {
 
     void deleteProduct(Integer productId);
 
+
+    List<ProductDto> getProductsByCategory(Integer categoryId);
+
+    List<ProductDto> getProductsByUser(Integer userId);
+
+    public List<ProductDto> getProductByProductType(String keyword);
+
+
 }
