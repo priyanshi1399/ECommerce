@@ -1,9 +1,11 @@
 package com.example.ECommerce;
 
+import org.jspecify.annotations.Nullable;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class ECommerceApplication {
@@ -14,7 +16,9 @@ public class ECommerceApplication {
 	}
 
 	@Bean
-	public ModelMapper modelMapper(){
-		return  new ModelMapper();
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
+
+
 }

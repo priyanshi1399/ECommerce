@@ -25,5 +25,8 @@ import java.util.*;
         @OneToMany(mappedBy="user" ,cascade=CascadeType.ALL,fetch = FetchType.LAZY)
         private List<Product> products=new ArrayList<>();
 
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(name="user_role", joinColumns=@JoinColumn(name="userr",referencedColumnName ="userId" ), inverseJoinColumns=@JoinColumn(name="role", referencedColumnName="id"))
+        private Set<Role> roles=new HashSet<>();
     }
 

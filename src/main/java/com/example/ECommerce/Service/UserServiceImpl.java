@@ -7,6 +7,7 @@ import com.example.ECommerce.Exception.ResourceNotFoundException;
 import com.example.ECommerce.Repo.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +22,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public UserDto createUser(UserDto userDto) {
         Userr user=modelMapper.map(userDto, Userr.class);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         Userr createdUser=this.userRepo.save(user);
         return modelMapper.map(createdUser, UserDto.class);
 
